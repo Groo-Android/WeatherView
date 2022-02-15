@@ -3,13 +3,16 @@ package kr.groo.android.weatherview.ui
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
-import kotlinx.coroutines.*
-import kr.groo.android.weatherview.domain.WeatherFunction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kr.groo.android.weatherview.domain.WeatherItem
 import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.model.WeatherParam
-import kr.groo.android.weatherview.ui.item.RainDropping
-import kr.groo.android.weatherview.ui.item.SnowFlaking
 
 class WeatherView @JvmOverloads constructor(
     context: Context,
@@ -21,39 +24,43 @@ class WeatherView @JvmOverloads constructor(
         private val weatherScope = CoroutineScope(Dispatchers.IO)
     }
 
-    private lateinit var weatherKind: WeatherKind
-    private lateinit var weatherParam: WeatherParam
-
-    private var weatherItemList: Array<WeatherFunction>? = null
+    private var previousTime = System.currentTimeMillis()
+    private var weatherKind: WeatherKind? = null
+    private var weatherParam: WeatherParam? = null
+    private var weatherItems: Array<WeatherItem>? = null
     private var weatherJob: Job? = null
+
+    init {
+        visibility = GONE
+    }
+
+    fun setWeatherData(weatherKind: WeatherKind, weatherParam: WeatherParam) {
+        this.weatherKind = weatherKind
+        this.weatherParam = weatherParam
+        visibility = VISIBLE
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        weatherItemList = when (weatherKind) {
-            is WeatherKind.Snow -> SnowFlaking().createItem(weatherParam)
-            is WeatherKind.Rain -> RainDropping().createItem(weatherParam)
-        }
+        weatherItems = weatherKind?.createItems(w, h, weatherParam!!)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        weatherItemList?.forEach { item ->
-            canvas?.let { item.drawItem(it) }
-        }
+        val currentTime = System.currentTimeMillis()
+        Log.e("Groo", "FPS: ${currentTime - previousTime}")
+        previousTime = currentTime
+
+        weatherItems?.forEach { it.drawItem(canvas) }
         weatherJob = weatherScope.launch {
             delay(5)
-            invalidate()
+            postInvalidate()
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         weatherJob?.cancel()
-    }
-
-    fun setWeatherData(weatherKind: WeatherKind, weatherParam: WeatherParam) {
-        this.weatherKind = weatherKind
-        this.weatherParam = weatherParam
     }
 }

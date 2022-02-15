@@ -1,7 +1,7 @@
 package kr.groo.android.weatherview
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kr.groo.android.weatherview.databinding.ActivityMainBinding
 import kr.groo.android.weatherview.model.WeatherKind
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
-        weatherKind = WeatherKind.Snow(10, 10)
+        weatherKind = WeatherKind.Snow()
         weatherParam = WeatherParam()
     }
 }

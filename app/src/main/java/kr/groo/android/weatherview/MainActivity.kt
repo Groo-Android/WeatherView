@@ -1,5 +1,6 @@
 package kr.groo.android.weatherview
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         weatherKind = WeatherKind.Snow()
-        weatherParam = WeatherParam()
+        weatherParam = WeatherParam(
+            fallingItemColor = Color.WHITE
+        )
     }
 }

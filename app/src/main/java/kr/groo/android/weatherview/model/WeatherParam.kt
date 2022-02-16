@@ -10,7 +10,7 @@ data class WeatherParam(
     val fallingItemRotate: Pair<Float, Float> = Pair(0F, 0F),
     val fallingItemColor: Int? = null,
     val fallingItemImage: Drawable? = null,
-    val fallingItemFromTheSky: Boolean = false,
+    val fallingItemFromTheSky: Boolean = true,
     val snowPaintKind: SnowPaintKind = SnowPaintKind.General,
     val rainPaintKind: RainPaintKind = RainPaintKind.General
 ) {

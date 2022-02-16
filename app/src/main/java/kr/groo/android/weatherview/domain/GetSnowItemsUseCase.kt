@@ -15,11 +15,11 @@ class GetSnowItemsUseCase : GetWeatherItemsUseCase {
         weatherKind: WeatherKind?,
         weatherFalling: WeatherFalling?
     ): Array<WeatherItem> {
-        if (weatherKind == null || weatherFalling == null) return emptyArray()
+        if (weatherKind == null || weatherKind !is WeatherKind.Snow || weatherFalling == null) return emptyArray()
 
         return Array(weatherFalling.fallingItemCount) {
             with(weatherFalling) {
-                val size = if (weatherKind is WeatherKind.Snow) RandomUtil.getRandomFromUntil(weatherKind.minSize, weatherKind.maxSize) else 0F
+                val size = RandomUtil.getRandomFromUntil(weatherKind.minSize, weatherKind.maxSize)
 
                 SnowItem(
                     screenWidth = screenWidth,

@@ -15,17 +15,12 @@ class GetRainItemsUseCase : GetWeatherItemsUseCase {
         weatherKind: WeatherKind?,
         weatherFalling: WeatherFalling?
     ) : Array<WeatherItem> {
-        if (weatherKind == null || weatherFalling == null) return emptyArray()
+        if (weatherKind == null || weatherKind !is WeatherKind.Rain || weatherFalling == null) return emptyArray()
 
         return Array(weatherFalling.fallingItemCount) {
             with(weatherFalling) {
-                var strokeWidth = 0F
-                var strokeHeight = 0F
-
-                if (weatherKind is WeatherKind.Rain) {
-                    strokeWidth = RandomUtil.getRandomFromUntil(weatherKind.minWidth, weatherKind.maxWidth)
-                    strokeHeight = RandomUtil.getRandomFromUntil(weatherKind.minHeight, weatherKind.maxHeight)
-                }
+                val strokeWidth = RandomUtil.getRandomFromUntil(weatherKind.minWidth, weatherKind.maxWidth)
+                val strokeHeight = RandomUtil.getRandomFromUntil(weatherKind.minHeight, weatherKind.maxHeight)
 
                 RainItem(
                     screenWidth = screenWidth,

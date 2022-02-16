@@ -2,6 +2,7 @@ package kr.groo.android.weatherview.ui.item
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PointF
 import androidx.core.graphics.drawable.toBitmap
@@ -21,9 +22,12 @@ class RainItem(
     private val itemHeight: Float = 0F,
     private val itemSpeed: Float = 0F,
     private val itemAngle: Double = 0.0,
+    private var itemRotate: Float = 0F,
+    private var itemRotateSize: Float = 0F,
     private val itemPoint: PointF = PointF(),
     private val itemPaint: Paint = Paint(),
-    private var itemImage: Bitmap? = null
+    private var itemImage: Bitmap? = null,
+    private var weatherParam: WeatherParam? = null
 ) : WeatherItem {
 
     override fun createItems(
@@ -48,11 +52,13 @@ class RainItem(
                     screenHeight = screenHeight,
                     itemWidth = strokeWidth,
                     itemHeight = strokeHeight,
-                    itemSpeed = getRandomFromUntil(fallingItemMinSpeed, fallingItemMaxSpeed),
-                    itemAngle = Math.toRadians((getRandomFromUntil(fallingItemMinAngle, fallingItemMaxAngle) * getRandomSign()).toDouble()),
-                    itemPoint = PointF(getRandomUntil(screenWidth.toFloat()), if (fallingItemStartBeforeLoad.not()) (-screenHeight / 2).toFloat() else getRandomUntil(screenHeight.toFloat())),
+                    itemSpeed = getRandomFromUntil(fallingItemSpeed.first, fallingItemSpeed.second),
+                    itemAngle = Math.toRadians((getRandomFromUntil(fallingItemAngle.first, fallingItemAngle.second) * getRandomSign()).toDouble()),
+                    itemRotateSize = getRandomFromUntil(fallingItemRotate.first, fallingItemRotate.second),
+                    itemPoint = PointF(getRandomUntil(screenWidth.toFloat()), if (fallingItemFromTheSky) (-screenHeight / 2).toFloat() else 0F),
                     itemPaint = rainPaintKind.getPaint(strokeWidth, this),
-                    itemImage = fallingItemImage?.toBitmap(strokeWidth.toInt(), strokeHeight.toInt())
+                    itemImage = fallingItemImage?.toBitmap(strokeWidth.toInt(), strokeHeight.toInt()),
+                    weatherParam = this
                 )
             }
         }
@@ -62,7 +68,11 @@ class RainItem(
         moveItem()
 
         if (itemImage != null) {
-            canvas.drawBitmap(itemImage!!, itemPoint.x, itemPoint.y, itemPaint)
+            Matrix().apply {
+                postRotate(itemRotate, itemWidth / 2, itemHeight / 2)
+                postTranslate(itemPoint.x, itemPoint.y)
+                canvas.drawBitmap(itemImage!!, this, itemPaint)
+            }
         } else {
             canvas.drawLine(itemPoint.x, itemPoint.y, itemPoint.x, itemPoint.y + itemHeight, itemPaint)
         }
@@ -77,6 +87,8 @@ class RainItem(
         if (isItemShow().not()) {
             resetItem()
         }
+
+        itemRotate += itemRotateSize
     }
 
     override fun isItemShow(): Boolean {
@@ -86,7 +98,7 @@ class RainItem(
     override fun resetItem() {
         itemPoint.apply {
             x = getRandomUntil(screenWidth.toFloat())
-            y = (-screenHeight / 2).toFloat()
+            y = if (weatherParam?.fallingItemFromTheSky == true) (-screenHeight / 2).toFloat() else 0F
         }
     }
 }

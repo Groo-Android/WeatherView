@@ -10,9 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kr.groo.android.weatherview.domain.WeatherItem
+import kr.groo.android.weatherview.domain.GetSnowItemsUseCase
+import kr.groo.android.weatherview.domain.GetWeatherItemsUseCase
 import kr.groo.android.weatherview.model.WeatherKind
-import kr.groo.android.weatherview.model.WeatherParam
+import kr.groo.android.weatherview.model.WeatherFalling
+import kr.groo.android.weatherview.ui.item.WeatherItem
 
 class WeatherView @JvmOverloads constructor(
     context: Context,
@@ -25,34 +27,23 @@ class WeatherView @JvmOverloads constructor(
     }
 
     private var previousTime = System.currentTimeMillis()
-    private var weatherKind: WeatherKind? = null
-    private var weatherParam: WeatherParam? = null
-    private var weatherItems: Array<WeatherItem>? = null
     private var weatherJob: Job? = null
 
-    init {
-        visibility = GONE
-    }
-
-    fun setWeatherData(weatherKind: WeatherKind, weatherParam: WeatherParam) {
-        this.weatherKind = weatherKind
-        this.weatherParam = weatherParam
-        visibility = VISIBLE
-    }
+    private var weatherItems: Array<WeatherItem>? = null
+    var weatherFalling: WeatherFalling? = null
+    var weatherKind: WeatherKind? = null
+    var getWeatherItemsUseCase: GetWeatherItemsUseCase? = null
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        weatherItems = weatherKind?.createItems(w, h, weatherParam!!)
+        weatherItems = getWeatherItemsUseCase?.invoke(w, h, weatherKind, weatherFalling)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        printLog()
 
-        val currentTime = System.currentTimeMillis()
-        Log.e("Groo", "FPS: ${currentTime - previousTime}")
-        previousTime = currentTime
-
-        weatherItems?.forEach { it.drawItem(canvas) }
+        weatherItems?.forEach { it.drawing.draw(canvas) }
         weatherJob = weatherScope.launch {
             delay(5)
             postInvalidate()
@@ -63,4 +54,11 @@ class WeatherView @JvmOverloads constructor(
         super.onDetachedFromWindow()
         weatherJob?.cancel()
     }
+
+    private fun printLog() {
+        val currentTime = System.currentTimeMillis()
+        Log.e("Groo", "FPS: ${currentTime - previousTime}")
+        previousTime = currentTime
+    }
+
 }

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         weatherKind = WeatherKind.Snow()
-
         getWeatherItemsUseCase = GetSnowItemsUseCase()
     }
 }

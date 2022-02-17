@@ -20,8 +20,9 @@
             android:id="@+id/weather_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:weatherFalling="@{activity.weatherFalling}"
             app:weatherKind="@{activity.weatherKind}"
-            app:weatherParam="@{activity.weatherParam}" />
+            app:getWeatherItemsUseCase="@{activity.getWeatherItemsUseCase}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

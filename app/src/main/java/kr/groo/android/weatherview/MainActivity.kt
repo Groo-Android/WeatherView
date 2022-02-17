@@ -5,15 +5,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kr.groo.android.weatherview.databinding.ActivityMainBinding
+import kr.groo.android.weatherview.domain.GetSnowItemsUseCase
+import kr.groo.android.weatherview.domain.GetWeatherItemsUseCase
 import kr.groo.android.weatherview.model.WeatherKind
-import kr.groo.android.weatherview.model.WeatherParam
+import kr.groo.android.weatherview.model.WeatherFalling
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    var weatherFalling: WeatherFalling? = null
     var weatherKind: WeatherKind? = null
-    var weatherParam: WeatherParam? = null
+    var getWeatherItemsUseCase: GetWeatherItemsUseCase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +27,12 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
+        weatherFalling = WeatherFalling.Builder()
+            .fallingItemColor(Color.WHITE)
+            .fallingItemFromTheSky(true)
+            .build()
+
         weatherKind = WeatherKind.Snow()
-        weatherParam = WeatherParam(
-            fallingItemColor = Color.WHITE
-        )
+        getWeatherItemsUseCase = GetSnowItemsUseCase()
     }
 }

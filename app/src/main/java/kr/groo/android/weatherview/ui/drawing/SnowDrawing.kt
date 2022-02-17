@@ -37,8 +37,8 @@ class SnowDrawing(override val weatherItem: SnowItem) : WeatherDrawing {
     }
 
     override fun show(): Boolean =
-        (weatherItem.itemPoint.x + weatherItem.itemSize <= weatherItem.screenWidth)
-                && (weatherItem.itemPoint.y + weatherItem.itemSize <= weatherItem.screenHeight)
+        (weatherItem.itemPoint.x + weatherItem.itemSize <= weatherItem.screenWidth) &&
+                (weatherItem.itemPoint.y + weatherItem.itemSize <= weatherItem.screenHeight)
 
     override fun reset() {
         weatherItem.itemPoint.apply {

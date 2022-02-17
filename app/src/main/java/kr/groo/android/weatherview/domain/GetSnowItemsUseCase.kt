@@ -1,10 +1,10 @@
 package kr.groo.android.weatherview.domain
 
 import android.graphics.PointF
-import kr.groo.android.weatherview.ui.item.WeatherItem
-import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.model.WeatherFalling
+import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.ui.item.SnowItem
+import kr.groo.android.weatherview.ui.item.WeatherItem
 import kr.groo.android.weatherview.util.RandomUtil
 
 class GetSnowItemsUseCase : GetWeatherItemsUseCase {

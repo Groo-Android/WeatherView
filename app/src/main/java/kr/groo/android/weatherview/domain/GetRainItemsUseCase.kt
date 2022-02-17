@@ -1,10 +1,10 @@
 package kr.groo.android.weatherview.domain
 
 import android.graphics.PointF
-import kr.groo.android.weatherview.ui.item.WeatherItem
-import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.model.WeatherFalling
+import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.ui.item.RainItem
+import kr.groo.android.weatherview.ui.item.WeatherItem
 import kr.groo.android.weatherview.util.RandomUtil
 
 class GetRainItemsUseCase : GetWeatherItemsUseCase {
@@ -14,7 +14,7 @@ class GetRainItemsUseCase : GetWeatherItemsUseCase {
         screenHeight: Int,
         weatherKind: WeatherKind?,
         weatherFalling: WeatherFalling?
-    ) : Array<WeatherItem> {
+    ): Array<WeatherItem> {
         if (weatherKind == null || weatherKind !is WeatherKind.Rain || weatherFalling == null) return emptyArray()
 
         return Array(weatherFalling.fallingItemCount) {

@@ -10,10 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kr.groo.android.weatherview.domain.GetSnowItemsUseCase
 import kr.groo.android.weatherview.domain.GetWeatherItemsUseCase
-import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.model.WeatherFalling
+import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.ui.item.WeatherItem
 
 class WeatherView @JvmOverloads constructor(
@@ -60,5 +59,4 @@ class WeatherView @JvmOverloads constructor(
         Log.e("Groo", "FPS: ${currentTime - previousTime}")
         previousTime = currentTime
     }
-
 }

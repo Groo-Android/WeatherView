@@ -35,6 +35,7 @@ class GetRainItemsUseCase : GetWeatherItemsUseCase {
                         fallingItemAngle.first,
                         fallingItemAngle.second
                     ) * RandomUtil.getRandomSign()).toDouble()),
+                    itemRotate = 0F,
                     itemRotateSize = RandomUtil.getRandomFromUntil(
                         fallingItemRotate.first,
                         fallingItemRotate.second

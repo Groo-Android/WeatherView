@@ -7,8 +7,8 @@ import androidx.databinding.DataBindingUtil
 import kr.groo.android.weatherview.databinding.ActivityMainBinding
 import kr.groo.android.weatherview.domain.GetSnowItemsUseCase
 import kr.groo.android.weatherview.domain.GetWeatherItemsUseCase
-import kr.groo.android.weatherview.model.WeatherKind
 import kr.groo.android.weatherview.model.WeatherFalling
+import kr.groo.android.weatherview.model.WeatherKind
 
 class MainActivity : AppCompatActivity() {
 

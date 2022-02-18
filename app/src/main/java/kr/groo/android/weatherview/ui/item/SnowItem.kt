@@ -8,24 +8,24 @@ import kr.groo.android.weatherview.model.WeatherFalling
 import kr.groo.android.weatherview.ui.drawing.SnowDrawing
 
 class SnowItem(
-    override val screenWidth: Int,
-    override val screenHeight: Int = 0,
     val itemSize: Float = 0F,
-    override val itemSpeed: Float = 0F,
-    override val itemAngle: Double = 0.0,
-    override var itemRotate: Float = 0F,
-    override var itemRotateSize: Float = 0F,
-    override val itemPoint: PointF = PointF(),
-    override var weatherFalling: WeatherFalling? = null
+    override val screenWidth: Int,
+    override val screenHeight: Int,
+    override val itemSpeed: Float,
+    override val itemAngle: Double,
+    override var itemRotate: Float,
+    override var itemRotateSize: Float,
+    override val itemPoint: PointF,
+    override var weatherFalling: WeatherFalling
 ) : WeatherItem {
 
     override val itemPaint = Paint().apply {
-        weatherFalling?.fallingItemColor?.let { color = it }
+        weatherFalling.fallingItemColor?.let { color = it }
         style = Paint.Style.FILL
     }
 
     override val itemImage: Bitmap? =
-        weatherFalling?.fallingItemImage?.toBitmap(itemSize.toInt(), itemSize.toInt())
+        weatherFalling.fallingItemImage?.toBitmap(itemSize.toInt(), itemSize.toInt())
 
     override val drawing = SnowDrawing(this)
 }

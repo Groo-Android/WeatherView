@@ -16,6 +16,6 @@ interface WeatherItem {
     val itemPoint: PointF
     val itemPaint: Paint
     val itemImage: Bitmap?
-    var weatherFalling: WeatherFalling?
+    var weatherFalling: WeatherFalling
     val drawing: WeatherDrawing
 }

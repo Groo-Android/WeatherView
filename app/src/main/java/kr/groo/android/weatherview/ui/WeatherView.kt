@@ -27,8 +27,8 @@ class WeatherView @JvmOverloads constructor(
 
     private var previousTime = System.currentTimeMillis()
     private var weatherJob: Job? = null
-
     private var weatherItems: Array<WeatherItem>? = null
+
     var weatherFalling: WeatherFalling? = null
     var weatherKind: WeatherKind? = null
     var getWeatherItemsUseCase: GetWeatherItemsUseCase? = null

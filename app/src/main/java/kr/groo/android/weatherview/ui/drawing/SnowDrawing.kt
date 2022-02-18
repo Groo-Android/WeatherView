@@ -33,7 +33,9 @@ class SnowDrawing(override val weatherItem: SnowItem) : WeatherDrawing {
             reset()
         }
 
-        weatherItem.itemRotate += weatherItem.itemRotateSize
+        if (weatherItem.itemRotateSize != 0F) {
+            weatherItem.itemRotate += weatherItem.itemRotateSize
+        }
     }
 
     override fun show(): Boolean =
@@ -43,7 +45,7 @@ class SnowDrawing(override val weatherItem: SnowItem) : WeatherDrawing {
     override fun reset() {
         weatherItem.itemPoint.apply {
             x = RandomUtil.getRandomUntil(weatherItem.screenWidth.toFloat())
-            y = if (weatherItem.weatherFalling?.fallingItemFromTheSky == true) (-weatherItem.screenHeight / 2).toFloat() else 0F
+            y = if (weatherItem.weatherFalling.fallingItemFromTheSky) (-weatherItem.screenHeight / 2).toFloat() else 0F
         }
     }
 }
